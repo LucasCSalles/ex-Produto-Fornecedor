@@ -26,7 +26,7 @@ public class Menu {
                         PesquisarProduto();
                         break;
                     case 3:
-                        PesquisarFornecedor();
+                        Pesquisar();
                         break;
                 }
             }
@@ -39,15 +39,15 @@ public class Menu {
         String nomeProduto;
         double valorProduto;
         int quantidadeEstoque;
-        Fornecedor fornecedor= PesquisarFornecedor();
         if (indexProd< produtos.length){
+        Fornecedor fornecedor= PesquisarFornecedor();
             if(fornecedor == null){
                 nomeFornecedor = showInputDialog(null, "Digite o nome do fornecedor para cadastro: ");
                 cnpj = parseLong(showInputDialog(null,"Digite o cnpj do fornecedor para cadastro: "));
                 fornecedores[indexForn] = new Fornecedor(nomeFornecedor, cnpj);
                 indexForn++;
             } else {
-                showMessageDialog(null, fornecedor.getCnpj() +fornecedor.getNome());
+                showMessageDialog(null, "Fornecedor ja cadastrado!" +"\n" +"Cnpj: "+fornecedor.getCnpj() +"\n" +"Nome Fornecedor: " +fornecedor.getNome());
             }
             nomeProduto = showInputDialog(null, "Digite o nome do produto");
             valorProduto = parseDouble(showInputDialog(null, "Digite o valor do produto"));
@@ -59,11 +59,10 @@ public class Menu {
         }
     }
     private void PesquisarProduto(){
-        String nomeProduto;
-        nomeProduto = showInputDialog(null, "Digite o nome do produto a ser encontrado: ");
+       String nomeProduto = showInputDialog(null, "Digite o nome do produto a ser encontrado: ");
         for (int i = 0; i < indexProd; i++) {
             if(nomeProduto.equalsIgnoreCase(produtos[i].getNomeProduto())){
-               showMessageDialog(null, produtos[i].getNomeProduto() +"\n" +produtos[i].getValorProduto() +"\n" +produtos[i].getFornecedor().getCnpj() +"\n" +produtos[i].getQuantidadeEstoque());
+               showMessageDialog(null, "Produto: " +produtos[i].getNomeProduto() +"\n" +"Valor: "+produtos[i].getValorProduto() +"\n" +"CNPJ fornecedor: " +produtos[i].getFornecedor().getCnpj() +"\n" +"Quantidade estoque: "+produtos[i].getQuantidadeEstoque());
                return;
             }
 
@@ -73,8 +72,7 @@ public class Menu {
     }
 
     private Fornecedor PesquisarFornecedor(){
-        long cnpj;
-        cnpj = parseLong(showInputDialog(null,"Digite o cnpj do fornecedor: "));
+       long cnpj = parseLong(showInputDialog(null,"Digite o cnpj do fornecedor: "));
         for (int i = 0; i < indexForn; i++) {
             if(cnpj == fornecedores[i].getCnpj()){
                 return fornecedores[i];
@@ -82,6 +80,12 @@ public class Menu {
         }
         showMessageDialog(null, "Fornecedor não encontrado");
         return null;
+    }
+    private void Pesquisar(){
+        Fornecedor fornecedor = PesquisarFornecedor();
+        if (fornecedor!=null){
+            showMessageDialog(null,"NOME: " +fornecedor.getNome() +"\n" +"CNPJ: " +fornecedor.getCnpj());
+        }
     }
 
 
